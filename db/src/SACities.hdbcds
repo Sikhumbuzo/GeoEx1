@@ -1,0 +1,13 @@
+namespace "GeoEx1"."db";
+
+context SACities {
+    entity CityData {
+        key CityID   : Integer generated always as identity(start with 1 increment by 1);
+            City         : String(100);
+            AccentCity   : String(100);
+            ProvinceName : String(50);
+            Latitude     : Decimal(10, 8);
+            Longitude    : Decimal(10, 8);
+            ProvinceID   : Integer;
+    }
+};
