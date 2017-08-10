@@ -9,7 +9,7 @@ modules:
    parameters:
       memory: 128M
    requires:
-    - name: hdi-container_2
+    - name: hdi-container
 
  - name: js
    type: nodejs
@@ -18,26 +18,26 @@ modules:
       memory: 128M
    requires:
      - name: db
-     - name: hdi-container_2
+     - name: hdi-container
      - name: geo-uaa
    provides:
     - name: js_api
       properties:
-         url: ${default-url}
-
-
+         service_url: ${default-url}
+         
  - name: ui
    type: html5
    path: ui
    parameters:
       memory: 256M
    requires:
-     - name: geo-uaa
      - name: js_api
        group: destinations
        properties:
-         name: js_api
+         name: js_dest
          url: ~{service_url}
+         forwardAuthToken: true
+     - name: geo-uaa
      - name: sapui5-provider
        properties:
          sapui5url: '~{url}'
@@ -46,11 +46,6 @@ resources:
  - name: hdi-container
    properties:
       hdi-container-name: ${service-name}
-   type: com.sap.xs.hdi-container
-
- - name: hdi-container_2
-   properties:
-      hdi-container-name_2: ${service-name}
    type: com.sap.xs.hdi-container
    
  - name: geo-uaa

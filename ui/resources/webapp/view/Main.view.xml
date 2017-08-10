@@ -1,10 +1,18 @@
-<mvc:View controllerName="ui.controller.Main" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-	xmlns="sap.m">
-	<App>
-		<pages>
-			<Page title="{i18n>title}">
-				<content></content>
-			</Page>
-		</pages>
-	</App>
+<mvc:View controllerName="ui.controller.Main" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout"
+	xmlns:viz="sap.viz.ui5.controls" xmlns:vbm="sap.ui.vbm" displayBlock="true" xmlns="sap.m" height="100%">
+	<l:FixFlex class="fixFlexVertical">
+		<l:flexContent>
+			<vbm:GeoMap id="vbi" width="100%" xmlns:l="sap.ui.layout" height="100%" openWindow="onOpenDetail" centerPosition="22.937506;-30.559482"
+				closeWindow="onCloseDetail" zoomlevel="7" zoomChanged="onZoomChanged">
+				<vbm:vos>
+					<vbm:Spots click="onClickItem" posChangeable="true" scaleChangeable="false" contextMenu="onContextMenuItem" items="{/Spots/items}">
+						<vbm:items>
+							<vbm:Spot id="Spot" position="{pos}" tooltip="{tooltip}" text="{text}" contentOffset="{contentOffset}" click="onClickSpot"
+								contextMenu="onContextMenuSpot"></vbm:Spot>
+						</vbm:items>
+					</vbm:Spots>
+				</vbm:vos>
+			</vbm:GeoMap>
+		</l:flexContent>
+	</l:FixFlex>
 </mvc:View>

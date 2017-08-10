@@ -4,6 +4,7 @@
 		"target_table": "GeoEx1.db::SACities.CityData",
 		"source_data": {
 			"data_type": "CSV",
+			"delete_existing_foreign_data": true,
 			"file_name": "GeoEx1.db::CityData.csv",
 			"has_header": false,
 			"dialect": "HANA",
