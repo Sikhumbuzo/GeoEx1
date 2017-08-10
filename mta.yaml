@@ -19,10 +19,28 @@ modules:
    requires:
      - name: db
      - name: hdi-container_2
+     - name: geo-uaa
    provides:
     - name: js_api
       properties:
          url: ${default-url}
+
+
+ - name: ui
+   type: html5
+   path: ui
+   parameters:
+      memory: 256M
+   requires:
+     - name: geo-uaa
+     - name: js_api
+       group: destinations
+       properties:
+         name: js_api
+         url: ~{service_url}
+     - name: sapui5-provider
+       properties:
+         sapui5url: '~{url}'
 
 resources:
  - name: hdi-container
@@ -34,6 +52,11 @@ resources:
    properties:
       hdi-container-name_2: ${service-name}
    type: com.sap.xs.hdi-container
-
-
+   
+ - name: geo-uaa
+   type: com.sap.xs.uaa
+   
+ - name: sapui5-provider
+   properties:
+     url: "https://sapui5.hana.ondemand.com"
 
