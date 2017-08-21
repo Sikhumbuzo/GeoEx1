@@ -15,7 +15,7 @@ modules:
    type: nodejs
    path: js
    parameters:
-      memory: 128M
+      memory: 256M
    requires:
      - name: db
      - name: hdi-container
@@ -42,6 +42,11 @@ modules:
        properties:
          sapui5url: '~{url}'
 
+
+ - name: ClusterUI
+   type: html5
+   path: ClusterUI
+
 resources:
  - name: hdi-container
    properties:
@@ -50,6 +55,11 @@ resources:
    
  - name: geo-uaa
    type: com.sap.xs.uaa
+   
+ - name: here-maps-service
+   type: org.cloudfoundry.existing-service
+   parameters:
+     service-name: here-maps
    
  - name: sapui5-provider
    properties:

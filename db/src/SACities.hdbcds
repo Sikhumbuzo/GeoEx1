@@ -6,8 +6,8 @@ context SACities {
             City         : String(100);
             AccentCity   : String(100);
             ProvinceName : String(50);
-            Latitude     : Decimal(10, 8);
-            Longitude    : Decimal(10, 8);
+            Latitude     : Decimal(10, 7);
+            Longitude    : Decimal(10, 7);
             ProvinceID   : Integer;
     }
 };

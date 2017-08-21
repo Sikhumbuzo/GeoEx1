@@ -9,6 +9,9 @@
 		"destination": "js_dest",
 		"csrfProtection": false,
 		"authenticationType": "xsuaa"
+	},{
+		"source": "/sap/hana/spatial/mapClient",
+		"destination": "js_dest"
 	}, {
 		"source": "^/webapp/(.*)",
 		"localDir": "resources",

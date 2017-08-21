@@ -1,0 +1,6 @@
+{
+	"exposed": true,
+	"authentication": null,
+	"authorization": [ "sap.hana.saptial.mapClient::Basic" ],
+	"prevent_xsrf" : true
+}

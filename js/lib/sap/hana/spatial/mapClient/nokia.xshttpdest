@@ -1,0 +1,7 @@
+description = "Tunnel to Nokia Map Provider";
+host = "4.base.maps.api.here.com";
+port = 80;
+useProxy = true;
+proxyHost = "proxy";
+proxyPort = 8080;
+useSSL = false;
