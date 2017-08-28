@@ -90,18 +90,20 @@ sap.ui.define([
 		onAfterRendering: function() {
 			if (!this.initialized) {
 				require([
+					"dojo/dom-construct",
 					"esri/Map",
 					"esri/views/MapView",
 					"esri/tasks/Locator",
 					"esri/widgets/Locate",
+					"esri/widgets/Search",
 					"dojo/domReady!"
-				], function(Map, MapView, Locator, Locate) {
-					
+				], function(domConstruct, Map, MapView, Locator, Locate, Search) {
+
 					var locatorTask = new Locator({
-			        	url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-			    	});
+						url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+					});
 					var map = new Map({
-						basemap: "streets-navigation-vector"
+						basemap: "osm"
 					});
 					var view = new MapView({
 						container: "content",
@@ -110,29 +112,46 @@ sap.ui.define([
 						center: [28.034088, -26.195246]
 					});
 					var locateBtn = new Locate({
-        				view: view
-    				});
-    				
-    				view.ui.add(locateBtn, {
-				        position: "top-left"
+						view: view
+					});
+
+					var logo = domConstruct.create("img", {
+						src: "/webapp/sap.svg",
+						id: "logo",
+						title: "logo"
+					});
+
+					var searchWidget = new Search({
+						view: view
 					});
 					
-					view.on("click", function(event){
+					view.ui.add(logo, "bottom-right");
+					
+					view.ui.add(searchWidget, {
+						position: "top-left",
+						index: 0
+					});
+
+					view.ui.add(locateBtn, {
+						position: "top-left"
+					});
+
+					view.on("click", function(event) {
 						event.stopPropagation();
-						
+
 						var lat = Math.round(event.mapPoint.latitude * 1000) / 1000;
-        				var lon = Math.round(event.mapPoint.longitude * 1000) / 1000;
-        				
-        				view.popup.open({
-        					title: 	"Reverse geocode: [" + lon + ", " + lat + "]",
-        					location: event.mapPoint
-        				});
-        				
-        				locatorTask.locationToAddress(event.mapPoint).then(function(response) {
-        					view.popup.content = response.address;
-        				}).otherwise(function(err){
-        					view.popup.content = "No address was found for this location";
-        				});
+						var lon = Math.round(event.mapPoint.longitude * 1000) / 1000;
+
+						view.popup.open({
+							title: "Reverse geocode: [" + lon + ", " + lat + "]",
+							location: event.mapPoint
+						});
+
+						locatorTask.locationToAddress(event.mapPoint).then(function(response) {
+							view.popup.content = response.address;
+						}).otherwise(function(err) {
+							view.popup.content = "No address was found for this location";
+						});
 					});
 				});
 			}
