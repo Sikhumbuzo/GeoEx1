@@ -23,7 +23,8 @@ sap.ui.define([
 					"description": "",
 					"tileX": "256",
 					"tileY": "256",
-					"maxLOD": "100",
+					"minLOD": "1",
+					"maxLOD": "20",
 					"copyright": "© 1987–2017 HERE",
 					"Source": [{
 						"id": "s1",
@@ -31,6 +32,12 @@ sap.ui.define([
 					}, {
 						"id": "s2",
 						"url": "https://2.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{LOD}/{X}/{Y}/256/png8?app_id=Mv1sZKBYuOL0uLAPcrRy&app_code=lglFX4tb_IwBnHuvVsNT6w"
+					}, {
+						"id": "s3",
+						"url": "https://3.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{LOD}/{X}/{Y}/256/png8?app_id=Mv1sZKBYuOL0uLAPcrRy&app_code=lglFX4tb_IwBnHuvVsNT6w"
+					}, {
+						"id": "s4",
+						"url": "https://4.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{LOD}/{X}/{Y}/256/png8?app_id=Mv1sZKBYuOL0uLAPcrRy&app_code=lglFX4tb_IwBnHuvVsNT6w"
 					}]
 				}],
 				"MapLayerStacks": [{
@@ -43,6 +50,8 @@ sap.ui.define([
 					}
 				}]
 			};
+			
+				
 			oGeoMap.setMapConfiguration(oMapConfig);
 			oGeoMap.setRefMapLayerStack("DEFAULT");
 		},

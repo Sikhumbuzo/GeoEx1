@@ -1,0 +1,8 @@
+<mvc:View height="100%" controllerName="CustomControl.controller.Main" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	xmlns:vbm="sap.ui.vbm" xmlns:l="sap.ui.layout" displayBlock="true">
+	<Page id="mainPage" enableScrolling="false" showHeader="false" title="Map">
+		<VBox fitContainer="true" justifyContent="Center" alignItems="Center">
+			<HBox id="map_canvas" fitContainer="true" justifyContent="Center" alignItems="Center"></HBox>
+		</VBox>
+	</Page>
+</mvc:View>

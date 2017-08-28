@@ -47,6 +47,20 @@ modules:
    type: html5
    path: ClusterUI
 
+
+ 
+
+
+ 
+
+
+ 
+
+
+ - name: CustomControl
+   type: html5
+   path: CustomControl
+
 resources:
  - name: hdi-container
    properties:

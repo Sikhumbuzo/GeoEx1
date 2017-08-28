@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8">
+
+		<title>CustomControl</title>
+
+		<script id="sap-ui-bootstrap"
+			src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
+			data-sap-ui-libs="sap.m"
+			data-sap-ui-theme="sap_bluecrystal"
+			data-sap-ui-compatVersion="edge"
+			data-sap-ui-resourceroots='{"CustomControl": ""}'>
+		</script>
+
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+
+		<!--<script>
+			sap.ui.getCore().attachInit(function() {
+				new sap.m.Shell({
+					app: new sap.ui.core.ComponentContainer({
+						height : "100%",
+						name : "CustomControl"
+					})
+				}).placeAt("content");
+			});
+		</script>-->
+		
+		<!--<script>
+			var app = new sap.m.App({initialPage: "idapp"});
+			var page1 = sap.ui.view({id:"idapp", viewName:"CustomControl.view.App", type:sap.ui.core.mvc.ViewType.XML, height: "100%"});
+			app.addPage(page1);
+			app.placeAt("content");
+		</script>-->
+		
+		<script>
+			sap.ui.getCore().attachInit(function() {
+				sap.ui.xmlview({
+					viewName: "CustomControl.view.App"
+				}).placeAt("content");
+			});
+		</script>
+		
+		<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+		<!--<link rel="stylesheet" type="text/css" href="https://js.cit.api.here.com/v3/3.0/mapsjs-ui.css" />
+		<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-core.js"></script>
+		<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-service.js"></script>
+		<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+		<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>-->
+		
+		<link rel="stylesheet" href="https://js.arcgis.com/4.4/esri/css/main.css">
+		<script src="https://js.arcgis.com/4.4/"></script>
+		
+		<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUiXGI447rpAvdRppKjEsmdBcXn-GleEM&amp;libraries=places" type ="text/javascript">
+		</script>-->
+		
+		<!--<link rel="stylesheet" href="https://openlayers.org/en/v4.3.1/css/ol.css" type="text/css">
+		<script src="https://openlayers.org/en/v4.3.1/build/ol.js"></script>-->
+		
+		<style>
+			.myMap {
+				height: 100%;
+				width: 100%;
+			}
+				html, body {
+        		height: 100%
+    		}
+    		div#content {
+        		height: 100%
+    		}
+		</style>
+	</head>
+
+	<body class="sapUiBody" id="content">
+	</body>
+
+</html>

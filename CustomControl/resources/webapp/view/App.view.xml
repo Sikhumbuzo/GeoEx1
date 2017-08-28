@@ -1,0 +1,6 @@
+<mvc:View controllerName="CustomControl.controller.App" height="100%" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" displayBlock="true">
+	<App id="appMaps">
+		<mvc:XMLView id="mainView" viewName="CustomControl.view.Main"></mvc:XMLView>
+	</App>
+</mvc:View>

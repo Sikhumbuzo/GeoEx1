@@ -1,4 +1,4 @@
-namespace "GeoEx1"."db";
+namespace GeoEx1.db;
 
 context SACities {
     entity CityData {
