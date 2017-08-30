@@ -47,19 +47,17 @@ modules:
    type: html5
    path: ClusterUI
 
-
- 
-
-
- 
-
-
- 
-
-
  - name: CustomControl
    type: html5
    path: CustomControl
+   requires:
+     - name: js_api
+       group: destinations
+       properties:
+         name: js_dest
+         url: ~{service_url}
+         forwardAuthToken: true
+     - name: geo-uaa
 
 resources:
  - name: hdi-container

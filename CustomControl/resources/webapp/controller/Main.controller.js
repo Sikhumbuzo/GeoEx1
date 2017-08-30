@@ -1,11 +1,24 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller"
-], function(Controller) {
+	"sap/ui/core/mvc/Controller",
+	"sap/ui/model/json/JSONModel",
+	"sap/ui/Device"
+], function(Controller, JSONModel, Device) {
 	"use strict";
 
 	return Controller.extend("CustomControl.controller.Main", {
 		onInit: function() {
 			this.getView().byId("map_canvas").addStyleClass("myMap");
+			/*var oModel = new sap.ui.model.json.JSONModel();
+			oModel.loadData("model/cityPoints.json");
+			
+			oModel.attachRequestCompleted(function(){
+				console.log("JSON " + JSON.stringify(oModel.getData()));	
+			});*/
+			/*	oModel.setData({
+					lat: -31.466667,
+					lng: 28.533333
+				});*/
+
 		},
 
 		//OpenLayers
@@ -91,29 +104,31 @@ sap.ui.define([
 			if (!this.initialized) {
 				require([
 					"dojo/dom-construct",
+					"esri/tasks/Locator",
 					"esri/Map",
 					"esri/views/MapView",
-					"esri/tasks/Locator",
-					"esri/widgets/Locate",
-					"esri/widgets/Search",
+					"esri/Graphic",
+					"esri/geometry/Point",
+					"esri/geometry/Multipoint",
+					"esri/symbols/SimpleMarkerSymbol",
 					"dojo/domReady!"
-				], function(domConstruct, Map, MapView, Locator, Locate, Search) {
+				], function(domConstruct, Locator, Map, MapView, Graphic, Point, Multipoint, SimpleMarkerSymbol) {
 
 					var locatorTask = new Locator({
 						url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
 					});
 					var map = new Map({
-						basemap: "osm"
+						basemap: "hybrid"
 					});
 					var view = new MapView({
 						container: "content",
 						map: map,
-						zoom: 12,
+						zoom: 3,
 						center: [28.034088, -26.195246]
 					});
-					var locateBtn = new Locate({
-						view: view
-					});
+					/*	var locateBtn = new Locate({
+							view: view
+						});*/
 
 					var logo = domConstruct.create("img", {
 						src: "/webapp/sap.svg",
@@ -121,19 +136,66 @@ sap.ui.define([
 						title: "logo"
 					});
 
-					var searchWidget = new Search({
+					/*	var searchWidget = new Search({
 						view: view
 					});
-					
+*/
 					view.ui.add(logo, "bottom-right");
-					
-					view.ui.add(searchWidget, {
-						position: "top-left",
-						index: 0
-					});
 
-					view.ui.add(locateBtn, {
-						position: "top-left"
+					/*	view.ui.add(searchWidget, {
+							position: "top-left",
+							index: 0
+						});
+
+						view.ui.add(locateBtn, {
+							position: "top-left"
+						});*/
+					var oModel = new sap.ui.model.json.JSONModel();
+					oModel.loadData("/cityPoints.xsjs");
+
+					oModel.attachRequestCompleted(function() {
+
+						var parseData = JSON.parse(JSON.stringify(oModel.getData()));
+						var data = parseData.items;
+						
+						var longitude = [];
+						var latitude = [];
+						var points = [];
+
+						for (var i = 0; i < 3; i++) {
+							points.push([data[i].lng, data[i].lat]);
+						}
+
+						console.log("JSON longitude: " + longitude.toString());
+						console.log("JSON latitude: " + latitude.toString());
+						//console.log("JSON Array" + JSON.stringify(oModel.getProperty("/items/lng")));
+
+						//var points = [longitude, latitude];
+
+						console.log("POINTS: " + JSON.stringify(points));
+						var multipoint = new Multipoint(points);
+
+						/*var point = new Point({
+							longitude: parseData.items.lng,
+							latitude: parseData.items.lat
+						});*/
+
+						var markerSymbol = new SimpleMarkerSymbol({
+							color: [226, 119, 40],
+							outline: { // autocasts as new SimpleLineSymbol()
+								color: [255, 255, 255],
+								width: 2
+							}
+						});
+
+						var pointGraphic = new Graphic({
+							geometry: multipoint,
+							symbol: markerSymbol
+						});
+
+						view.then(function() {
+							view.graphics.add(pointGraphic);
+						});
 					});
 
 					view.on("click", function(event) {

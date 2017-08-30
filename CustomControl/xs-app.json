@@ -1,5 +1,10 @@
 {
 	"welcomeFile": "webapp/index.html",
-	"authenticationMethod": "none",
-	"routes": []
+	"authenticationMethod": "route",
+	"routes": [{
+		"source": "(.*)(.xsjs)",
+		"destination": "js_dest",
+		"csrfProtection": false,
+		"authenticationType": "xsuaa"
+	}]
 }

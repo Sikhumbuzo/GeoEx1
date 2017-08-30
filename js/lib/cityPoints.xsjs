@@ -9,13 +9,15 @@ try{
 	response.items = [];
     
 	for(var row = 0; row < results.length; row++) {            
-		response.items.push({pos: JSON.parse(results[row].Lon.toString())+";"+JSON.parse(results[row].Lat.toString())+";"+0, text: results[row].City.toString(), tooltip: results[row].Province.toString()});
+		//response.items.push({pos: JSON.parse(results[row].Lon.toString())+";"+JSON.parse(results[row].Lat.toString())+";"+0, text: results[row].City.toString(), tooltip: results[row].Province.toString()});
+		response.items.push({lng: results[row].Lon.toString(), lat: results[row].Lat.toString()});
 	}
 	
 	connection.close();
 
 	$.response.contentType = "application/json";
-	$.response.setBody(JSON.stringify({Spots: response}));	
+	//$.response.setBody(JSON.stringify({Spots: response}));
+	$.response.setBody(JSON.stringify(response));
 	$.response.setStatus = $.net.http.OK;
 	
 }catch (e){
