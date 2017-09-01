@@ -74,7 +74,6 @@ sap.ui.define([
 		/*onAfterRendering: function() {
 			if (!this.initialized) {
 				this.initialized = true;
-
 				var platform = new H.service.Platform({
 					app_id: "Mv1sZKBYuOL0uLAPcrRy",
 					app_code: "lglFX4tb_IwBnHuvVsNT6w",
@@ -83,13 +82,11 @@ sap.ui.define([
 				});
 			}
 			var defaultLayers = platform.createDefaultLayers();
-
 			var map = new H.Map(this.getView().byId("map_canvas").getDomRef(), defaultLayers.normal.map,{
 				zoom: 10,
 				center: {lat: -26.195246, lng: 28.034088}
 			});
 			var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
 			var ui = H.ui.UI.createDefault(map, defaultLayers);
 			
 			var jhbMarker = new H.map.Marker({
@@ -107,18 +104,21 @@ sap.ui.define([
 					"esri/tasks/Locator",
 					"esri/Map",
 					"esri/views/MapView",
+					"esri/widgets/Search",
+					"esri/widgets/Locate",
 					"esri/Graphic",
 					"esri/geometry/Point",
 					"esri/geometry/Multipoint",
 					"esri/symbols/SimpleMarkerSymbol",
 					"dojo/domReady!"
-				], function(domConstruct, Locator, Map, MapView, Graphic, Point, Multipoint, SimpleMarkerSymbol) {
+				], function(domConstruct, Locator, Map, MapView, Search, Locate, Graphic, Point, Multipoint, SimpleMarkerSymbol) {
 
 					var locatorTask = new Locator({
 						url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
 					});
 					var map = new Map({
-						basemap: "hybrid"
+						basemap: "osm",
+						ground: "world-elevation"
 					});
 					var view = new MapView({
 						container: "content",
@@ -126,9 +126,9 @@ sap.ui.define([
 						zoom: 3,
 						center: [28.034088, -26.195246]
 					});
-					/*	var locateBtn = new Locate({
-							view: view
-						});*/
+					var locateBtn = new Locate({
+						view: view
+					});
 
 					var logo = domConstruct.create("img", {
 						src: "/webapp/sap.svg",
@@ -136,20 +136,20 @@ sap.ui.define([
 						title: "logo"
 					});
 
-					/*	var searchWidget = new Search({
+					var searchWidget = new Search({
 						view: view
 					});
-*/
+
 					view.ui.add(logo, "bottom-right");
 
-					/*	view.ui.add(searchWidget, {
-							position: "top-left",
-							index: 0
-						});
+					view.ui.add(searchWidget, {
+						position: "top-left",
+						index: 0
+					});
 
-						view.ui.add(locateBtn, {
-							position: "top-left"
-						});*/
+					view.ui.add(locateBtn, {
+						position: "top-left"
+					});
 					var oModel = new sap.ui.model.json.JSONModel();
 					oModel.loadData("/cityPoints.xsjs");
 
@@ -157,31 +157,17 @@ sap.ui.define([
 
 						var parseData = JSON.parse(JSON.stringify(oModel.getData()));
 						var data = parseData.items;
-						
-						var longitude = [];
-						var latitude = [];
+
 						var points = [];
 
-						for (var i = 0; i < 3; i++) {
+						for (var i = 0; i < 1000; i++) {
 							points.push([data[i].lng, data[i].lat]);
 						}
 
-						console.log("JSON longitude: " + longitude.toString());
-						console.log("JSON latitude: " + latitude.toString());
-						//console.log("JSON Array" + JSON.stringify(oModel.getProperty("/items/lng")));
-
-						//var points = [longitude, latitude];
-
-						console.log("POINTS: " + JSON.stringify(points));
 						var multipoint = new Multipoint(points);
 
-						/*var point = new Point({
-							longitude: parseData.items.lng,
-							latitude: parseData.items.lat
-						});*/
-
 						var markerSymbol = new SimpleMarkerSymbol({
-							color: [226, 119, 40],
+							color: "#428bca",
 							outline: { // autocasts as new SimpleLineSymbol()
 								color: [255, 255, 255],
 								width: 2
