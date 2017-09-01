@@ -97,7 +97,7 @@ sap.ui.define([
 		}*/
 
 		//Esri
-		onAfterRendering: function() {
+		/*onAfterRendering: function() {
 			if (!this.initialized) {
 				require([
 					"dojo/dom-construct",
@@ -202,6 +202,47 @@ sap.ui.define([
 						});
 					});
 				});
+			}
+		}*/
+
+		//Mapbox
+		onAfterRendering: function() {
+			if (!this.initialized) {
+				this.initialized = true;
+
+				mapboxgl.accessToken = "pk.eyJ1Ijoic2lraHVtYnV6byIsImEiOiJjajcxeGZsaXkwNWxlMnFwNHJ6MHd2enJsIn0.spn-7EzaxoJCDCxcRqt7HQ";
+				var map = new mapboxgl.Map({
+					container: this.getView().byId("map_canvas").getDomRef(),
+					style: "mapbox://styles/mapbox/streets-v10",
+					center: [-74.0066, 40.7135],
+					zoom: 15,
+					pitch: 45,
+					bearing: -17.6
+				});
+
+				map.on('load', function() {
+					map.addLayer({
+						'id': '3d-buildings',
+						'source': 'composite',
+						'source-layer': 'building',
+						'filter': ['==', 'extrude', 'true'],
+						'type': 'fill-extrusion',
+						'minzoom': 15,
+						'paint': {
+							'fill-extrusion-color': '#aaa',
+							'fill-extrusion-height': {
+								'type': 'identity',
+								'property': 'height'
+							},
+							'fill-extrusion-base': {
+								'type': 'identity',
+								'property': 'min_height'
+							},
+							'fill-extrusion-opacity': .6
+						}
+					});
+				});
+
 			}
 		}
 
