@@ -97,7 +97,7 @@ sap.ui.define([
 		}*/
 
 		//Esri
-		/*onAfterRendering: function() {
+		onAfterRendering: function() {
 			if (!this.initialized) {
 				require([
 					"dojo/dom-construct",
@@ -203,10 +203,10 @@ sap.ui.define([
 					});
 				});
 			}
-		}*/
+		}
 
 		//Mapbox
-		onAfterRendering: function() {
+		/*onAfterRendering: function() {
 			if (!this.initialized) {
 				this.initialized = true;
 
@@ -244,7 +244,7 @@ sap.ui.define([
 				});
 
 			}
-		}
+		}*/
 
 	});
 });
