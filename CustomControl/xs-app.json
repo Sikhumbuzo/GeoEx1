@@ -6,5 +6,10 @@
 		"destination": "js_dest",
 		"csrfProtection": false,
 		"authenticationType": "xsuaa"
+	}, {
+		"source": "/node/(.*)",
+		"destination": "js_dest",
+		"csrfProtection": false,
+		"authenticationType": "xsuaa"
 	}]
 }

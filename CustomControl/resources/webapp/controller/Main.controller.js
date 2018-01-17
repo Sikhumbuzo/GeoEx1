@@ -111,13 +111,13 @@ sap.ui.define([
 			var ui = H.ui.UI.createDefault(map, defaultLayers);
 
 			var oModel = new sap.ui.model.json.JSONModel();
-			oModel.loadData("/cityPoints.xsjs");
+			oModel.loadData("/node/getPoints");
 			
 			var that = this;
 
 			oModel.attachRequestCompleted(function() {
 				var parseData = JSON.parse(JSON.stringify(oModel.getData()));
-				var data = parseData.items;
+				//var data = parseData.items;
 
 				/*var points = [];
 
@@ -125,7 +125,7 @@ sap.ui.define([
 					points.push(data[i].lng, data[i].lat);
 				}*/
 
-				that.startClustering(map, data);
+				that.startClustering(map, parseData);
 				that._hideBusyDialog();
 			});
 
@@ -134,7 +134,7 @@ sap.ui.define([
 		startClustering: function(map, data) {
 
 			var dataPoints = data.map(function(item) {
-				return new H.clustering.DataPoint(item.lat, item.lng);
+				return new H.clustering.DataPoint(item.Lat, item.Lon);
 			});
 
 			var clusteredDataProvider = new H.clustering.Provider(dataPoints, {
