@@ -6,7 +6,27 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("CustomControl.controller.Main", {
+		
+		_getBusyDialog: function(){
+			if (!this._oDialog) {
+				this._oDialog = sap.ui.xmlfragment("CustomControl.view.BusyDialog");
+				//attach dialog to current view
+				this.getView().addDependent(this._oDialog);
+			}
+			
+			return this._oDialog;
+		},
+		
+		_showBusyDialog: function(){
+			this._getBusyDialog().open();
+		},
+		
+		_hideBusyDialog: function(){
+			this._getBusyDialog().close();
+		},
+		
 		onInit: function() {
+			this._showBusyDialog();
 			this.getView().byId("map_canvas").addStyleClass("myMap");
 			/*var oModel = new sap.ui.model.json.JSONModel();
 			oModel.loadData("model/cityPoints.json");
@@ -71,7 +91,7 @@ sap.ui.define([
 		}*/
 
 		//Here Maps
-		/*onAfterRendering: function() {
+		onAfterRendering: function() {
 			if (!this.initialized) {
 				this.initialized = true;
 				var platform = new H.service.Platform({
@@ -82,22 +102,56 @@ sap.ui.define([
 				});
 			}
 			var defaultLayers = platform.createDefaultLayers();
-			var map = new H.Map(this.getView().byId("map_canvas").getDomRef(), defaultLayers.normal.map,{
-				zoom: 10,
-				center: {lat: -26.195246, lng: 28.034088}
+			var map = new H.Map(this.getView().byId("map_canvas").getDomRef(), defaultLayers.normal.map, {
+				zoom: 2,
+				center: new H.geo.Point(-26.195246, 28.034088)
 			});
+
 			var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 			var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+			var oModel = new sap.ui.model.json.JSONModel();
+			oModel.loadData("/cityPoints.xsjs");
 			
-			var jhbMarker = new H.map.Marker({
-				lat: -26.195246,
-				lng: 28.034088
+			var that = this;
+
+			oModel.attachRequestCompleted(function() {
+				var parseData = JSON.parse(JSON.stringify(oModel.getData()));
+				var data = parseData.items;
+
+				/*var points = [];
+
+				for (var i = 0; i < 1000; i++) {
+					points.push(data[i].lng, data[i].lat);
+				}*/
+
+				that.startClustering(map, data);
+				that._hideBusyDialog();
 			});
-			map.addObject(jhbMarker);
-		}*/
+
+		},
+
+		startClustering: function(map, data) {
+
+			var dataPoints = data.map(function(item) {
+				return new H.clustering.DataPoint(item.lat, item.lng);
+			});
+
+			var clusteredDataProvider = new H.clustering.Provider(dataPoints, {
+				clusteringOptions: {
+					eps: 32,
+					minWeight: 2
+				}
+			});
+
+			var clusteringLayer = new H.map.layer.ObjectLayer(clusteredDataProvider);
+
+			map.addLayer(clusteringLayer);
+
+		}
 
 		//Esri
-		onAfterRendering: function() {
+		/*onAfterRendering: function() {
 			if (!this.initialized) {
 				require([
 					"dojo/dom-construct",
@@ -203,7 +257,7 @@ sap.ui.define([
 					});
 				});
 			}
-		}
+		}*/
 
 		//Mapbox
 		/*onAfterRendering: function() {

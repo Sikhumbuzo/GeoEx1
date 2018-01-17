@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller"
-], function(Controller) {
+	"sap/ui/core/mvc/Controller",
+	"com/sap/clusterClusterUI/map/mapConfigOSM"
+], function(Controller, mapConfigOSM) {
 	"use strict";
 
 	return Controller.extend("com.sap.clusterClusterUI.controller.Main", {
@@ -54,39 +55,9 @@ sap.ui.define([
 				})
 			});
 
-			//Add map provider
-			var oMapConfig = {
-				"MapProvider": [{
-					"name": "HEREMAPS",
-					"type": "",
-					"description": "",
-					"tileX": "256",
-					"tileY": "256",
-					"minLOD": "0",
-					"maxLOD": "23",
-					"copyright": "© 1987–2017 HERE",
-					"Source": [{
-						"id": "s1",
-						"url": "https://1.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{LOD}/{X}/{Y}/256/png8?app_id=Mv1sZKBYuOL0uLAPcrRy&app_code=lglFX4tb_IwBnHuvVsNT6w"
-					}, {
-						"id": "s2",
-						"url": "https://2.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{LOD}/{X}/{Y}/256/png8?app_id=Mv1sZKBYuOL0uLAPcrRy&app_code=lglFX4tb_IwBnHuvVsNT6w"
-					}]
-				}],
-				"MapLayerStacks": [{
-					"name": "DEFAULT",
-					"MapLayer": {
-						"name": "layer1",
-						"refMapProvider": "HEREMAPS",
-						"opacity": "1",
-						"colBkgnd": "RGB(255,255,255)"
-					}
-				}]
-			};
-
 			//save a reference to the instance of GeoMap
 			this.oVBI = this.getView().byId("vbi");
-			this.oVBI.setMapConfiguration(oMapConfig);
+			this.oVBI.setMapConfiguration(mapConfigOSM.mapConfigOSM);
 			this.oVBI.setRefMapLayerStack("DEFAULT");
 
 			var oModel = new sap.ui.model.json.JSONModel();
