@@ -2,3 +2,8 @@ html,
 body {
     height: 100%;
 }
+
+.myMap {
+    height: 100%;
+    width: 100%;
+}
