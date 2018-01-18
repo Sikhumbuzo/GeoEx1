@@ -27,7 +27,7 @@ sap.ui.define([
 		
 		onInit: function() {
 			this._showBusyDialog();
-			this.getView().byId("map_canvas").addStyleClass("myMap");
+			//this.getView().byId("map_canvas").addStyleClass("myMap");
 		},
 
 		//OpenLayers
