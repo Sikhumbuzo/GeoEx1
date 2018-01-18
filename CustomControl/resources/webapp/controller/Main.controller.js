@@ -28,17 +28,6 @@ sap.ui.define([
 		onInit: function() {
 			this._showBusyDialog();
 			this.getView().byId("map_canvas").addStyleClass("myMap");
-			/*var oModel = new sap.ui.model.json.JSONModel();
-			oModel.loadData("model/cityPoints.json");
-			
-			oModel.attachRequestCompleted(function(){
-				console.log("JSON " + JSON.stringify(oModel.getData()));	
-			});*/
-			/*	oModel.setData({
-					lat: -31.466667,
-					lng: 28.533333
-				});*/
-
 		},
 
 		//OpenLayers
