@@ -7,9 +7,9 @@
 		"csrfProtection": false,
 		"authenticationType": "xsuaa"
 	}, {
-		"source": "/node/(.*)",
+		"source": "/node(.*)",
 		"destination": "js_dest",
-		"csrfProtection": false,
+		"csrfProtection": true,
 		"authenticationType": "xsuaa"
 	}]
 }

@@ -1,79 +1,66 @@
 ID: GeoEx1
 _schema-version: '2.0'
 version: 0.0.1
-
 modules:
- - name: db
-   type: hdb
-   path: db
-   parameters:
+  - name: db
+    type: hdb
+    path: db
+    parameters:
       memory: 128M
-   requires:
-    - name: hdi-container
-
- - name: js
-   type: nodejs
-   path: js
-   parameters:
+      disk-quota: 200M
+    requires:
+      - name: hdi-container
+        properties:
+          TARGET_CONTAINER: ~{hdi-container-name}
+          
+  - name: js
+    type: nodejs
+    path: js
+    parameters:
       memory: 256M
-   requires:
-     - name: db
-     - name: hdi-container
-     - name: geo-uaa
-   provides:
-    - name: js_api
-      properties:
-         service_url: ${default-url}
-         
- - name: ui
-   type: html5
-   path: ui
-   parameters:
+      disk-quota: 400M
+    requires:
+      - name: db
+      - name: hdi-container
+      - name: geo-uaa
+    provides:
+      - name: js_api
+        properties:
+          service_url: '${default-url}'
+    properties:
+      SAP_JWT_TRUST_ACL: '[{"clientid":"sb-js", "identityzone": "*"}]'
+      
+  - name: CustomControl
+    type: html5
+    path: CustomControl
+    parameters:
       memory: 256M
-   requires:
-     - name: js_api
-       group: destinations
-       properties:
-         name: js_dest
-         url: ~{service_url}
-         forwardAuthToken: true
-     - name: geo-uaa
-     - name: sapui5-provider
-       properties:
-         sapui5url: '~{url}'
-
-
- - name: ClusterUI
-   type: html5
-   path: ClusterUI
-
- - name: CustomControl
-   type: html5
-   path: CustomControl
-   requires:
-     - name: js_api
-       group: destinations
-       properties:
-         name: js_dest
-         url: ~{service_url}
-         forwardAuthToken: true
-     - name: geo-uaa
-
+      disk-quota: 400M
+    requires:
+      - name: js_api
+        group: destinations
+        properties:
+          name: js_dest
+          url: '~{service_url}'
+          forwardAuthToken: true
+      - name: geo-uaa
+    properties:
+      TENANT_HOST_PATTERN: '^(.*)-trial-dev-customcontrol.cfapps.eu10.hana.ondemand.com'
+      
 resources:
- - name: hdi-container
-   properties:
-      hdi-container-name: ${service-name}
-   type: com.sap.xs.hdi-container
-   
- - name: geo-uaa
-   type: com.sap.xs.uaa
-   
- - name: here-maps-service
-   type: org.cloudfoundry.existing-service
-   parameters:
-     service-name: here-maps
-   
- - name: sapui5-provider
-   properties:
-     url: "https://sapui5.hana.ondemand.com"
-
+  - name: hdi-container
+    properties:
+      hdi-container-name: '${service-name}'
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hanatrial
+      service-plan: hdi-shared
+      
+  - name: geo-uaa
+    type: com.sap.xs.uaa
+    parameters:
+      service: xsuaa
+      service-plan: application
+  - name: sapui5-provider
+    properties:
+      url: 'https://sapui5.hana.ondemand.com'

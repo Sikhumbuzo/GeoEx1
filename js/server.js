@@ -1,38 +1,33 @@
 /*eslint no-console: 0, no-unused-vars: 0*/
 "use strict";
 
-var xsjs  = require("@sap/xsjs");
+var https = require("https");
 var xsenv = require("@sap/xsenv");
 var port  = process.env.PORT || 3000;
 var server = require("http").createServer();
-var express = require("express");
-var node = require("./getPoints");
 
-var app = express();
-var options = {
-	redirectUrl : "/index.xsjs"
-};
+https.globalAgent.options.ca= xsenv.loadCertificates();
 
-// configure HANA
-try {
-	options = Object.assign(options, xsenv.getServices({ hana: {tag: "hana"} }));
-} catch (err) {
-	console.log("[WARN]", err.message);
-}
+global.__base = __dirname + "/";
+var init = require(global.__base + "utils/initialize");
 
-// configure UAA
-try {
-	options = Object.assign(options, xsenv.getServices({ uaa: {tag: "xsuaa"} }));
-} catch (err) {
-	console.log("[WARN]", err.message);
-}
+//Initialize Express App for XSA UAA and HDBEXT Middleware
+var app = init.initExpress();
 
-app.use("/node", node(options.hana));
-// start server
-var xsjsApp = xsjs(options);
-app.use(xsjsApp);
 
+//Setup Routes
+
+var router = require("./router")(app, server);
+
+
+//Initialize the XSJS Compatibility Layer
+
+init.initXSJS(app);
+
+
+//Start the Server
 server.on("request", app);
-server.listen(port, function(){
-	console.log("HTTP Server: " + server.address().port );
+
+server.listen(port, function() {
+	console.info("HTTP Server: " + server.address().port);
 });
